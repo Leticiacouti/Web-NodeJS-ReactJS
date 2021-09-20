@@ -1,6 +1,7 @@
 import { getRepository } from "typeorm";
 import{ Records } from '../entity/Records';
 import { Request, Response } from "express";
+import { Console, log } from "console";
 
 export const getRecords = async(request: Request, response: Response) =>
 {

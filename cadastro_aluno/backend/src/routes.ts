@@ -10,9 +10,9 @@ const routes = Router()
 
 routes.get('/Records', getRecords)
 routes.post('/saveRecord', saveRecord)
-routes.get('/getRecord', getRecord)
-routes.put('/updateRecord', updateRecord)
-routes.delete('/deleteRecord', deleteRecord)
-routes.patch('/updateStatus', updateStatus)
+routes.get('/Record/:id', getRecord)
+routes.put('/Record/:id', updateRecord)
+routes.delete('/Record/:id', deleteRecord)
+routes.patch('/updateStatus/:id', updateStatus)
 
 export default routes

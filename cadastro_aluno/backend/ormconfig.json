@@ -2,9 +2,9 @@
    "type": "postgres",
    "host": "chunee.db.elephantsql.com",
    "port": 5432,
-   "username": "lupebppm",
-   "password": "6ZcnFRBze1FTPsSkJUqMQOzDurBP1Lbk",
-   "database": "lupebppm",
+   "username": "mwsafxel",
+   "password": "Ttr4Fx-rYf91gKdGjMDGbLnuoPgBiRzr",
+   "database": "mwsafxel",
    "synchronize": true,
    "logging": false,
    "entities": [
