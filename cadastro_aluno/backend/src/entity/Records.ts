@@ -20,5 +20,5 @@ export class Records{
         registered: boolean;
 
     @Column()
-        age: Number;
+        age: number;
 }
