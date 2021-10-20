@@ -23,7 +23,7 @@ const Records: React.FC = () => {
     }, [])
 
     async function loadRecords() {
-        const response = await api.get('/Records')
+        const response = await api.get<[]>('/Records')
         console.log(response);
         setRecords(response.data)
     }
