@@ -1,7 +1,9 @@
 import React, { useState , useEffect } from 'react';
 import { Button, Table } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
 import api from '../../services/api';
 import moment from 'moment';
+import './index.css';
 
 interface IRecord{
     id: number;
@@ -16,7 +18,7 @@ interface IRecord{
 const Records: React.FC = () => {
     
     const [records, setRecords] = useState<IRecord[]>([])
-
+    const history = useHistory()
 
     useEffect(() => {
         loadRecords()
@@ -32,10 +34,21 @@ const Records: React.FC = () => {
         return moment(date).format('DD/MM/YYYY')
     }
 
+    function newRecord(){
+        history.push('/alunos_cadastro')
+    }
+
+    function editRecord(id: number){
+        history.push(`/alunos_cadastro/${id}`)
+    }
+
     return(
         <div className="container">
             <br />
-            <h1>Página de Cadastros</h1>
+            <div className="record-header">
+                <h1>Cadastros</h1>
+                <Button variant="dark" size="sm" onClick={newRecord}>Novo Cadastro</Button>
+            </div>
             <br />
             <Table striped bordered hover className="text-center">
                 <thead>
@@ -54,19 +67,19 @@ const Records: React.FC = () => {
                     {
                         records.map(record => (
                             <tr key={record.id}>
-                            <td>{record.id}</td>
-                            <td>{record.name}</td>
-                            <td>{record.ra}</td>
-                            <td>{formatDate(record.dt_birth)}</td>
-                            <td>{record.address}</td>
-                            <td>{record.registered ? "Matriculado" : "Pendente"}</td>
-                            <td>{record.age}</td>
-                            <td>
-                            <Button size="sm" variant="primary">Editar</Button>{' '}
-                            <Button size="sm" variant="success">Matricular</Button>{' '}
-                            <Button size="sm" variant="warning">Visualizar</Button>{' '}
-                            <Button size="sm" variant="danger">Remover</Button>{' '}
-                            </td>
+                                <td>{record.id}</td>
+                                <td>{record.name}</td>
+                                <td>{record.ra}</td>
+                                <td>{formatDate(record.dt_birth)}</td>
+                                <td>{record.address}</td>
+                                <td>{record.registered ? "Matriculado" : "Pendente"}</td>
+                                <td>{record.age}</td>
+                                <td>
+                                    <Button size="sm" variant="primary" onClick={() => editRecord(record.id)}>Editar</Button>{' '}
+                                    <Button size="sm" variant="success">Finalizar</Button>{' '}
+                                    <Button size="sm" variant="warning">Visualizar</Button>{' '}
+                                    <Button size="sm" variant="danger">Remover</Button>{' '}
+                                </td>
                             </tr>    
                         ))
                     }
