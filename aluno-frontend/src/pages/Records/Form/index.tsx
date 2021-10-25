@@ -6,7 +6,10 @@ import { useHistory, useParams } from 'react-router-dom';
 
 interface IRecord{
     name: string;
+    ra: string;
+    dt_birth: Date;
     address: string;
+    age: number;
 }
 
 const Records: React.FC = () => {
@@ -15,13 +18,16 @@ const Records: React.FC = () => {
     const { id } = useParams<{ id: string }>()
 
     const [model, setModel] = useState<IRecord>({
-        name: '',
-        address: ''
+        name: "",
+        ra: "",
+        dt_birth: new Date(),
+        address: "",
+        age: 0o0
     })
 
     useEffect(() => {
         console.log(id)
-        if (id != undefined) {
+        if (id !== undefined) {
             findRecord(id)
         }
     }, [id])
@@ -36,7 +42,7 @@ const Records: React.FC = () => {
     async function onSubmit(e: ChangeEvent<HTMLFormElement>){
         e.preventDefault()
 
-        if(id != undefined) {
+        if(id !== undefined) {
             const response = await api.put(`/records/${id}`, model)
         }
         else{
@@ -50,12 +56,15 @@ const Records: React.FC = () => {
     }
 
     async function findRecord(id: string){
-        const response = await api.get(`records/${id}`)
+        const response = await api.get<any>(`records/${id}`)
         console.log(response)
-/*         setModel({
-            name: response.data["name"],
-            address: response.data["address"]
-        }) */
+        setModel({
+            name: response.data.name,
+            ra: response.data.ra,
+            dt_birth: response.data.dt_birth,
+            address: response.data.address,
+            age: response.data.age
+        });
     }
 
     return(
@@ -74,8 +83,23 @@ const Records: React.FC = () => {
                     </Form.Group>
 
                     <Form.Group>
+                        <Form.Label>RA</Form.Label>
+                        <Form.Control type="text" name="ra" value={model.ra} onChange={(e:ChangeEvent<HTMLInputElement>) => updatedModel(e)}/>
+                    </Form.Group>
+
+                    <Form.Group>
+                        <Form.Label>Data de Nascimento</Form.Label>
+                        <Form.Control type="date" name="dt_birth" value={model.dt_birth} onChange={(e:ChangeEvent<HTMLInputElement>) => updatedModel(e)}/>
+                    </Form.Group>
+
+                    <Form.Group>
                         <Form.Label>Endereço</Form.Label>
                         <Form.Control type="text" name="address" value={model.address} onChange={(e:ChangeEvent<HTMLInputElement>) => updatedModel(e)}/>
+                    </Form.Group>
+
+                    <Form.Group>
+                        <Form.Label>Idade</Form.Label>
+                        <Form.Control type="number" name="age" value={model.age} onChange={(e:ChangeEvent<HTMLInputElement>) => updatedModel(e)}/>
                     </Form.Group>
 
                     <Button variant="dark" type="submit">Salvar</Button>

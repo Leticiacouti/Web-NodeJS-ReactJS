@@ -27,7 +27,7 @@ const Records: React.FC = () => {
     async function loadRecords() {
         const response = await api.get<[]>('/Records')
         console.log(response);
-        setRecords(response.data)
+        setRecords(response.data);
     }
 
     function formatDate(date: Date){
@@ -40,6 +40,20 @@ const Records: React.FC = () => {
 
     function editRecord(id: number){
         history.push(`/alunos_cadastro/${id}`)
+    }
+
+    function viewRecord(id: number){
+        history.push(`/record/${id}`);
+    }
+
+    async function finishedRegistered(id: number){
+        await api.patch(`/registered/${id}`);
+        loadRecords();
+    }
+
+    async function deleteRecord(id: number){
+        await api.delete(`/record/${id}`);
+        loadRecords();
     }
 
     return(
@@ -72,13 +86,13 @@ const Records: React.FC = () => {
                                 <td>{record.ra}</td>
                                 <td>{formatDate(record.dt_birth)}</td>
                                 <td>{record.address}</td>
-                                <td>{record.registered ? "Matriculado" : "Pendente"}</td>
+                                <td>{record.registered ? "Matriculado(a)" : "Desmatriculado(a)"}</td>
                                 <td>{record.age}</td>
                                 <td>
                                     <Button size="sm" variant="primary" onClick={() => editRecord(record.id)}>Editar</Button>{' '}
-                                    <Button size="sm" variant="success">Finalizar</Button>{' '}
-                                    <Button size="sm" variant="warning">Visualizar</Button>{' '}
-                                    <Button size="sm" variant="danger">Remover</Button>{' '}
+                                    <Button size="sm" variant="success" onClick={() => finishedRegistered(record.id)}>Desmatricular</Button>{' '}
+                                    <Button size="sm" variant="warning" onClick={() => viewRecord(record.id)}>Visualizar</Button>{' '}
+                                    <Button size="sm" variant="danger" onClick={() => deleteRecord(record.id)}>Remover</Button>{' '}
                                 </td>
                             </tr>    
                         ))
