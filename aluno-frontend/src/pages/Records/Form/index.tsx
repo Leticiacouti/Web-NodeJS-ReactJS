@@ -43,10 +43,10 @@ const Records: React.FC = () => {
         e.preventDefault()
 
         if(id !== undefined) {
-            const response = await api.put(`/records/${id}`, model)
+            const response = await api.put(`/Record/${id}`, model)
         }
         else{
-            const response = await api.post('/records', model)
+            const response = await api.post('/saveRecord', model)
         }
         back()
     }
@@ -56,7 +56,7 @@ const Records: React.FC = () => {
     }
 
     async function findRecord(id: string){
-        const response = await api.get<any>(`records/${id}`)
+        const response = await api.get<any>(`Record/${id}`)
         console.log(response)
         setModel({
             name: response.data.name,

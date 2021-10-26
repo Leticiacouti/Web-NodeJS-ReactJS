@@ -25,7 +25,7 @@ const Records: React.FC = () => {
     }, [])
 
     async function loadRecords() {
-        const response = await api.get<[]>('/Records')
+        const response = await api.get<any>('/Records')
         console.log(response);
         setRecords(response.data);
     }
@@ -43,16 +43,16 @@ const Records: React.FC = () => {
     }
 
     function viewRecord(id: number){
-        history.push(`/record/${id}`);
+        history.push(`/cadastros/${id}`);
     }
 
     async function finishedRegistered(id: number){
-        await api.patch(`/registered/${id}`);
+        await api.patch(`/updateStatus/${id}`);
         loadRecords();
     }
 
     async function deleteRecord(id: number){
-        await api.delete(`/record/${id}`);
+        await api.delete(`/Record/${id}`);
         loadRecords();
     }
 
@@ -79,20 +79,20 @@ const Records: React.FC = () => {
                 </thead>
                 <tbody>
                     {
-                        records.map(record => (
-                            <tr key={record.id}>
-                                <td>{record.id}</td>
-                                <td>{record.name}</td>
-                                <td>{record.ra}</td>
-                                <td>{formatDate(record.dt_birth)}</td>
-                                <td>{record.address}</td>
-                                <td>{record.registered ? "Matriculado(a)" : "Desmatriculado(a)"}</td>
-                                <td>{record.age}</td>
+                        records.map(records => (
+                            <tr key={records.id}>
+                                <td>{records.id}</td>
+                                <td>{records.name}</td>
+                                <td>{records.ra}</td>
+                                <td>{formatDate(records.dt_birth)}</td>
+                                <td>{records.address}</td>
+                                <td>{records.registered ? "Matriculado(a)" : "Desmatriculado(a)"}</td>
+                                <td>{records.age}</td>
                                 <td>
-                                    <Button size="sm" variant="primary" onClick={() => editRecord(record.id)}>Editar</Button>{' '}
-                                    <Button size="sm" variant="success" onClick={() => finishedRegistered(record.id)}>Desmatricular</Button>{' '}
-                                    <Button size="sm" variant="warning" onClick={() => viewRecord(record.id)}>Visualizar</Button>{' '}
-                                    <Button size="sm" variant="danger" onClick={() => deleteRecord(record.id)}>Remover</Button>{' '}
+                                    <Button size="sm" variant="primary" onClick={() => editRecord(records.id)}>Editar</Button>{' '}
+                                    <Button size="sm" variant="success" onClick={() => finishedRegistered(records.id)}>Desmatricular</Button>{' '}
+                                    <Button size="sm" variant="warning" onClick={() => viewRecord(records.id)}>Visualizar</Button>{' '}
+                                    <Button size="sm" variant="danger" onClick={() => deleteRecord(records.id)}>Remover</Button>{' '}
                                 </td>
                             </tr>    
                         ))
